@@ -1,0 +1,22 @@
+{
+    "name": "uooki/toolbox",
+    "description": "This is toolkit for php development.",
+    "type": "library",
+    "require": {
+        "php": ">=5.4"
+    },
+    "license": "MIT",
+	 "authors": [
+	     {
+            "name": "uooki",
+            "email": "shaun.go@qq.com"
+		  }
+	 ],
+    "minimum-stability": "dev",
+	 "autoload": {
+	     "psr-4": {
+            "Uooki\\Validor\\": "src/Uooki/Validor",
+            "Uooki\\Helper\\": "src/Uooki/Helper"
+		  }
+	 }
+}
