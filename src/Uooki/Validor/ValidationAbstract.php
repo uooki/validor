@@ -9,7 +9,7 @@
 namespace Uooki\Validor;
 
 
-abstract class AbstractValidation
+abstract class ValidationAbstract
 {
 
     abstract  protected function required($data);

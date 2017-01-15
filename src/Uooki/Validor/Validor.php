@@ -11,21 +11,21 @@
 
 namespace Uooki\Validor;
 
-//use Uooki\Validor\ValidConst;
 
 class Validor
 {
 
+    use ValidationTrait;
 
-    public function __construct($request,Validation $validation){
-
-        $this->_request=$request;
+    public function __construct(Validation $validation){
         $this->_validation=$validation;
     }
 
-    public  function  valid($data,$rule,$type){
+    public  function  valid($data,$rule){
+        $this->_validation->valid($data,$rule)->result();
+    }
 
-        $this->_validation->$type($data,$rule);
+    public function  validForm($form,$rule){
 
     }
 

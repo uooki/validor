@@ -24,11 +24,11 @@ class ValidConst
     const VALID_RULE_SAME='same';
     const VALID_RULE_UNIQUE='unique';
     const VALID_RULE_REGEX='regex'; // regex:xxx
-    const VALID_RULE_FUNCITON='callbacks'; //callbacks :xxx|xxx|xxx
+    const VALID_RULE_CALLBACK='callback'; //callbacks :xxx|xxx|xxx
 
-    const REG_NAME="";
+    const REG_NAME="/^[\x{4E00}-\x{9FA5}a-zA-Z-_]{4,20}$/u";
     const REG_EMAIL="";
-    const REG_PHONE="";
+    const REG_PHONE="/^1(3|4|5|7|8)\d{9}$/";
     const REG_IP="";
     const REG_URL="";
 

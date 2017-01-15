@@ -9,12 +9,7 @@ namespace Uooki\Validor;
 
 interface ValidationInterface
 {
-
-
-    //public function username();
-    public function email($data);
-    //public function phone();
-    //public function password();
-
-
+    public function getData();
+    public function getRule();
+    public function result();
 }
