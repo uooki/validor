@@ -26,7 +26,7 @@ class Validor
     }
 
     public function  validForm($form,$rule){
-
+        //todo
     }
 
 
