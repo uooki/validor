@@ -12,7 +12,7 @@
             "email": "shaun.go@qq.com"
 		  }
 	 ],
-    "minimum-stability": "dev",
+    "minimum-stability": "master",
 	 "autoload": {
 	     "psr-4": {
             "Uooki\\Validor\\": "src/Uooki/Validor",
