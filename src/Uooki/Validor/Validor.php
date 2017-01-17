@@ -1,7 +1,7 @@
 <?php
 /**
  *
- * validor ¹¦ÄÜµÄAPI , ÎªÍâ²¿µ÷ÓÃ validor ¹¦ÄÜÌá¹©µÄ½Ó¿Ú
+ * validor åŠŸèƒ½çš„API , ä¸ºå¤–éƒ¨è°ƒç”¨ validor åŠŸèƒ½æä¾›çš„æ¥å£
  *
  * Created by PhpStorm.
  * User: uoouki
@@ -12,6 +12,10 @@
 namespace Uooki\Validor;
 
 
+/**
+ * Class Validor
+ * @package Uooki\Validor
+ */
 class Validor
 {
 
@@ -21,10 +25,22 @@ class Validor
         $this->_validation=$validation;
     }
 
+
+    /**
+     * å•é¡¹éªŒè¯æ•°æ®
+     *
+     * @param $data
+     * @param $rule
+     */
     public  function  valid($data,$rule){
         $this->_validation->valid($data,$rule)->result();
     }
 
+    /**
+     * è¡¨å•éªŒè¯
+     * @param $form
+     * @param $rule
+     */
     public function  validForm($form,$rule){
         //todo
     }
