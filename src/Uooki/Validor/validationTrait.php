@@ -9,7 +9,7 @@
 namespace Uooki\Validor;
 
 
-trait validationTrait
+trait ValidationTrait
 {
 
      static  public  function name($name){
