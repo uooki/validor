@@ -119,8 +119,6 @@ class Validation extends ValidationAbstract implements ValidationInterface
      */
     protected function unique($data, $connect, $table, $field)
     {
-
-
         $sql = "select * from " . $table . " where " . $field . "='" . $data . "' ";
 
         $flag = true;
@@ -151,10 +149,8 @@ class Validation extends ValidationAbstract implements ValidationInterface
      */
     public function valid($val, $rule)
     {
-
         $data = $val;
         $result = new ValidResult($data, $rule);
-
         // 根据rule 调用不同的方法验证数据
         foreach ($rule as $v) {
             if (is_array($v)) {
