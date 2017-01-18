@@ -1,15 +1,12 @@
 <?php
-
-
 require './vendor/autoload.php';
 
 use Uooki\Validor\Validor;
 
-
 $valid=new Validor();
 
-$d="dfdqq5";
+$d="hi!";
 
-$res=$valid->valid($d,['min:6','regular:/^[0-9]+$/']);
+$res=$valid->valid($d,['min:3','regular:/^[a-z0-9]+$/','required']);
 
 var_dump($res);
