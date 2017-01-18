@@ -150,10 +150,8 @@ class Validation extends ValidationAbstract implements ValidationInterface
      */
     public function valid($val, $rule)
     {
-
         $data = $val;
         $result = new ValidResult($data, $rule);
-
         // 根据rule 调用不同的方法验证数据
         foreach ($rule as $v) {
             if (is_array($v)) {
