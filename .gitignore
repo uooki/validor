@@ -12,4 +12,4 @@ Homestead.json
 _ide_helper.php
 /.idea
 t*.php
-/hooks/
+/hooks
