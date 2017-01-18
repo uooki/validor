@@ -13,7 +13,7 @@ trait ValidationTrait
 {
 
      static  public  function name($name){
-         // 正则验证
+         //
          $valid = preg_match(ValidConst::REG_NAME, $name);
          return $valid;
      }

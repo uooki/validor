@@ -1,4 +1,5 @@
 /vendor/
+composer.lock
 tags
 *.swp
 *.mp4
@@ -11,6 +12,6 @@ Homestead.yaml
 Homestead.json
 _ide_helper.php
 /.idea
-t*.php
+
 
 

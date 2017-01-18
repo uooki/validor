@@ -18,5 +18,9 @@
             "Uooki\\Validor\\": "src/Uooki/Validor",
             "Uooki\\Helper\\": "src/Uooki/Helper"
 		  }
-	 }
+	 },
+     "require-dev": {
+         "phpunit/phpunit": "5.5.*",
+         "phpunit/dbunit": ">=1.2"
+     }
 }

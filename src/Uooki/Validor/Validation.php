@@ -138,14 +138,12 @@ class Validation extends  ValidationAbstract  implements  ValidationInterface
      */
 	protected  function  parseRule($rule){
 	  //
-		   foreach($rule as &$v){
+		   foreach($rule as $k=>$v){
 			   $is=strpos($v,":");
 			   if(false!==$is){
-				    $v[0]=substr($v,0,$is);
-				    $v[1]=substr($v,$is+1);
+				   $rule[$k]=[substr($v,0,$is),substr($v,$is+1)];
 			   }
 		   }
-		   unset($v);
            return $rule;
      }
 
@@ -159,6 +157,7 @@ class Validation extends  ValidationAbstract  implements  ValidationInterface
 		 $data=$val;
 		 $rule=$this->parseRule($rul);
 		 $result=new ValidResult($data);
+
 		// 根据rule 调用不同的方法验证数据
 		foreach($rule as $v){
 

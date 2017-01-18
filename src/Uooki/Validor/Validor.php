@@ -33,7 +33,7 @@ class Validor
      * @param $rule
      */
     public  function  valid($data,$rule){
-        $this->_validation->valid($data,$rule)->result();
+       return  $this->_validation->valid($data,$rule)->result();
     }
 
     /**
