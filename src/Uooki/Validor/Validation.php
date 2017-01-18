@@ -10,191 +10,182 @@
 *
 *
 */
-namespace  Uooki\Validor;
+namespace Uooki\Validor;
 
 
-class Validation extends  ValidationAbstract  implements  ValidationInterface
+class Validation extends ValidationAbstract implements ValidationInterface
 {
 
-	protected  $data;
-	protected  $rule;
-	protected  $result;
+    protected $data;
+    protected $rule;
+    protected $result;
 
 
-	public function  __construct(){
+    public function  __construct()
+    {
 
-	}
+    }
 
-	public function getData(){
-
-
-	}
-
-	public function getRule(){
+    public function getData()
+    {
 
 
-	}
+    }
 
-	public function result(){
-             return $this->result;
-	}
-	/**
-	 * @param $data
-	 * @return bool
+    public function getRule()
+    {
+
+
+    }
+
+    public function result()
+    {
+        return $this->result;
+    }
+
+    /**
+     * @param $data
+     * @return bool
      */
-	protected  function  required($data){
-		$nd=strval($data);
-        $d=trim($nd);
-		return  !empty($d);
-     }
+    protected function  required($data)
+    {
+        $nd = strval($data);
+        $d = trim($nd);
+        return !empty($d);
+    }
 
-	/**
-	 * @param $data
-	 * @param $len
-	 * @return bool
+    /**
+     * @param $data
+     * @param $len
+     * @return bool
      */
-	protected function min($data,$len){
-		$length=mb_strlen($data,"UTF-8");
-		return ($length>$len );
-	}
+    protected function min($data, $len)
+    {
+        $length = mb_strlen($data, "UTF-8");
+        return ($length >= $len);
+    }
 
-	/**
-	 * @param $data
-	 * @param $len
-	 * @return bool
+    /**
+     * @param $data
+     * @param $len
+     * @return bool
      */
-	protected function max($data,$len){
+    protected function max($data, $len)
+    {
+        //内部编码请统一使用UTF-8，设置项目内部编码为UTF-8 ：mb_internal_encoding("UTF-8");
+        $length = mb_strlen($data, "UTF-8");
+        return ($length < $len);
+    }
 
-		 $length=mb_strlen($data,"UTF-8");  // 内部编码请统一使用UTF-8，设置项目内部编码为UTF-8 ：mb_internal_encoding("UTF-8");
-		 return ($length<$len );
-
-	}
-
-	/**
-	 * @param $data
-	 * @param $regex
-	 * @return int
+    /**
+     * @param $data
+     * @param $regex
+     * @return int
      */
-	protected function regular($data,$regex){
-		// 正则验证
-		$valid = preg_match($regex, $data);
-		return $valid;
-	}
+    protected function regular($data, $regex)
+    {
+        // 正则验证
+        $valid = preg_match($regex, $data);
+        return $valid ? true : false;
+    }
 
-	/**
-	 * @param $first
-	 * @param null $second
-	 * @return bool
+    /**
+     * @param $first
+     * @param null $second
+     * @return bool
      */
-	protected function same($first,$second=null){
+    protected function same($first, $second = null)
+    {
 
-		if(is_array($first)){
-			$flag=true;
-			foreach($first as $v){
-				if($first[0]!==$v){
-					$flag=false;
-				}
-			}
-			return $flag;
-		}else{
-			return ($first === $first);
-		}
-	}
+        if (is_array($first)) {
+            $flag = true;
+            foreach ($first as $v) {
+                if ($first[0] !== $v) {
+                    $flag = false;
+                }
+            }
+            return $flag;
+        } else {
+            return ($first === $first);
+        }
+    }
 
-	/**
-	 * @param $data
-	 * @param $connect
-	 * @param $table
-	 * @param $field
-	 * @return bool
+    /**
+     * @param $data
+     * @param $connect
+     * @param $table
+     * @param $field
+     * @return bool
      */
-	protected function unique($data,$connect,$table,$field){
+    protected function unique($data, $connect, $table, $field)
+    {
 
 
-		  $sql="select * from ".$table." where ".$field."='".$data."' ";
+        $sql = "select * from " . $table . " where " . $field . "='" . $data . "' ";
 
-		 $flag=true;
-		 if($result=$connect->query($sql)){
-			 if($result->num_rows>0){
-				 $flag=false;
-			 }
-			 $result->close();
-		 }
-		 return $flag;
-	}
+        $flag = true;
+        if ($result = $connect->query($sql)) {
+            if ($result->num_rows > 0) {
+                $flag = false;
+            }
+            $result->close();
+        }
+        return $flag;
+    }
 
-	/**
-	 * @param $data
-	 * @return bool
+    /**
+     * @param $data
+     * @return bool
      */
-	public function email($data){
-		return (false===filter_var($data,FILTER_VALIDATE_EMAIL))?false:true;
-	}
+    public function email($data)
+    {
+        return (false === filter_var($data, FILTER_VALIDATE_EMAIL)) ? false : true;
+    }
 
-	/**
-	 * @param $rule
-	 * @return mixed
-	 *  ['require','regex:xxx','unique','same','min:xxx','functions:xxx|xxx|']
+    /**
+     * @param $val
+     * @param $rule
+     * @return object
+     *
+     *
      */
-	protected  function  parseRule($rule){
-	  //
-		   foreach($rule as $k=>$v){
-			   $is=strpos($v,":");
-			   if(false!==$is){
-				   $rule[$k]=[substr($v,0,$is),substr($v,$is+1)];
-			   }
-		   }
-           return $rule;
-     }
+    public function valid($val, $rule)
+    {
 
-	/**
-	 * @param $val
-	 * @param $rul
-	 * @return object
-     */
-	public function valid($val,$rul){
+        $data = $val;
+        $result = new ValidResult($data, $rule);
 
-		 $data=$val;
-		 $rule=$this->parseRule($rul);
-		 $result=new ValidResult($data);
+        // 根据rule 调用不同的方法验证数据
+        foreach ($rule as $v) {
+            if (is_array($v)) {
+                // 使用指定的函数做验证
+                if (ValidConst::VALID_RULE_CALLBACK === $v[0]) {
+                    $callbacks = explode("|", $v[1]);
+                    foreach ($callbacks as $v1) {
+                        $temp = $this->$v1($data);
+                        if (!$temp) {
+                            $result->setStatus($temp);
+                        }
+                        $result->setResult([ValidConst::VALID_RULE_CALLBACK, [$v1 => $temp]]);
+                    }
+                } else {
+                    $temp = $this->$v[0]($data, $v[1]);
+                    if (!$temp) {
+                        $result->setStatus($temp);
+                    }
+                    $result->setResult([$v[0], $temp]);
+                }
+            } else {
+                $temp = $this->$v($data);
+                if (!$temp) {
+                    $result->setStatus($temp);
+                }
+                $result->setResult([$v, $temp]);
+            }
+        }
+        $this->result = $result;
+        return $this;
 
-		// 根据rule 调用不同的方法验证数据
-		foreach($rule as $v){
-
-			if(is_array($v)){
-
-				$result->setRule($v[0]);
-				$result->setStatus(true);
-
-				// 使用指定的函数做验证
-				if(ValidConst::VALID_RULE_CALLBACK===$v[0]){
-
-					$callbacks=explode("|",$v[1]);
-					$result->setParams($callbacks);
-					foreach($callbacks as $v1){
-						$temp = $this->$v1($data);
-						$result->setStatus($temp);
-						$result->setResult([$v1,$temp]);
-					}
-
-				}else{
-
-					$temp = $this->$v[0]($data,$v[1]);
-					$result->setStatus($temp);
-					$result->setParams($v[1]);
-					$result->setResult($temp);
-				}
-			}else{
-
-                 $temp = $this->$v($data);
-				 $result->setRule($v);
-				 $result->setStatus($temp);
-				 $result->setResult($temp);
-			}
-		}
-		$this->result=$result;
-		return  $this;
-
-	}
+    }
 
 }

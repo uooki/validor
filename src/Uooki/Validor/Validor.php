@@ -33,6 +33,8 @@ class Validor
      * @param $rule
      */
     public  function  valid($data,$rule){
+
+       $rule=$this->parseRule($rule);
        return  $this->_validation->valid($data,$rule)->result();
     }
 
@@ -43,6 +45,23 @@ class Validor
      */
     public function  validForm($form,$rule){
         //todo
+    }
+
+
+    /**
+     * @param $rule
+     * @return mixed
+     *  ['require','regex:xxx','unique','same','min:xxx','functions:xxx|xxx|']
+     */
+    protected  function  parseRule($rule){
+        //
+        foreach($rule as $k=>$v){
+            $is=strpos($v,":");
+            if(false!==$is){
+                $rule[$k]=[substr($v,0,$is),substr($v,$is+1)];
+            }
+        }
+        return $rule;
     }
 
 
