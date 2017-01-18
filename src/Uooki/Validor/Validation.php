@@ -19,7 +19,7 @@ class Validation extends  ValidationAbstract  implements  ValidationInterface
 	protected  $data;
 	protected  $rule;
 	protected  $result;
-
+	protected  $msg;
 
 	public function  __construct(){
 
@@ -146,6 +146,11 @@ class Validation extends  ValidationAbstract  implements  ValidationInterface
 		   }
            return $rule;
      }
+
+	protected  function  getMsg(){
+		// msg 很多时候跟需求相关，因此，可能的话放到项目中生产
+
+	}
 
 	/**
 	 * @param $val
