@@ -21,8 +21,8 @@ class Validor
 
     use ValidationTrait;
 
-    public function __construct(Validation $validation){
-        $this->_validation=$validation;
+    public function __construct(){
+        $this->_validation=new Validation();
     }
 
 
