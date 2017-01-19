@@ -5,7 +5,7 @@
     "require": {
         "php": ">=5.4"
     },
-    "minmum-stability": "dev-master",
+    "minimum-stability": "dev-master",
     "license": "MIT",
 	 "authors": [
 	     {
