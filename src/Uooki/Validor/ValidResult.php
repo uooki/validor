@@ -33,6 +33,8 @@ class ValidResult
      */
     public $result;
 
+    public  $formResult;
+
     /**
      * @param $data
      * @param $rule
@@ -63,4 +65,18 @@ class ValidResult
         }
 
     }
+
+    public  function  addResult($result,$key1,$key2,...){
+         // todo
+         $this->result[]=$result;
+    }
+
+    /*
+    public  function setFormResult($result){
+
+        if(count($result)>0){
+            $this->formResult[]=$result;
+        }
+
+    }*/
 }

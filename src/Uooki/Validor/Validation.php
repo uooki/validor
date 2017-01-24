@@ -32,17 +32,18 @@ class Validation extends ValidationAbstract implements ValidationInterface
 
     }
 
-    public function getRule()
-    {
+    public function getRule(){
 
 
     }
-
     public function result()
+    {
+        return $this->getResult();
+    }
+    public function getResult()
     {
         return $this->result;
     }
-
     /**
      * @param $data
      * @return bool
@@ -181,6 +182,36 @@ class Validation extends ValidationAbstract implements ValidationInterface
             }
         }
         $this->result = $result;
+        return $this;
+
+    }
+
+    protected  function setResult($value){
+         $this->result=$value;
+    }
+
+    protected  function  addResult($data){
+         $this->result[]=$data;
+    }
+
+    protected  function conventToFormResult($k){
+
+        // 存储的单项结果转换为表单结果
+        $res=$this->getResult();
+
+        $this->setResult(null);
+        $this->addResult([$k=>$res]);
+    }
+
+    public function validForm($rule,$form){
+
+        $data=empty($form)?$_POST:$form;
+
+        foreach($data as $k=>$v){
+             if(isset($rule[$k])){
+                  $this->valid($v,$rule[$k])->conventToFormResult($k);
+             }
+        }
         return $this;
 
     }
