@@ -34,8 +34,8 @@ class Validor
      */
     public  function  valid($data,$rule){
 
-       $rule=$this->parseRule($rule);
-       return  $this->_validation->valid($data,$rule)->result();
+        $rule=$this->parseRule($rule);
+        return  $this->_validation->valid($data,$rule)->result();
     }
 
     /**
@@ -43,8 +43,14 @@ class Validor
      * @param $form
      * @param $rule
      */
-    public function  validForm($form,$rule){
-        //todo
+    public function  validForm($rule,$form=null){
+        // todo
+        // 根据form 字段名 匹配到rule ,若没有皮匹配到，则返回错误
+        foreach($rule as $k=>$v){
+            $rule[$k]=$this->parseRule($v);
+        }
+        return $this->_validation->validForm($rule,$form)->result();
+
     }
 
 
