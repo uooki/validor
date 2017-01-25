@@ -16,10 +16,13 @@ namespace Uooki\Validor;
 class ValidResult
 {
 
+
+    // 存储最终结果
+    public $result;
     /**
      * @var
      */
-    public $status;
+    public $status=true;
     /**
      * @var
      */
@@ -28,21 +31,38 @@ class ValidResult
      * @var
      */
     public $rule;
+
     /**
      * @var
+     * 存储最近一次进行单项验证的结果
      */
-    public $result;
+    protected $lastResult;
 
-    public  $formResult;
+    // 表单标记
+    private $formFlag=false;
 
     /**
+     * @param $result
      * @param $data
      * @param $rule
      */
-    public function  __construct($data,$rule){
+    public function  __construct($result,$data,$rule){
+
         $this->data=$data;
         $this->rule=$rule;
-        $this->status=true;
+        $len=count($result);
+        if(isset($result[0])&&(1==$len)){
+            $this->setStatus($result[0]['status']);
+            $this->setResult($result[0]['data']);
+        }else{
+            $this->setResult($result);
+            foreach($result as $k=>$v){
+                 if(false===$v['status']){
+                     $this->setStatus(false);
+                     break;
+                 }
+            }
+        }
     }
 
     /**
@@ -53,30 +73,29 @@ class ValidResult
           $this->status=$status;
     }
 
+    public  function  getResult(){
+        return $this->result;
+    }
+    public  function setResult($result){
+
+         return  $this->result=$result;
+    }
+
+    public  function  conventToFormResult($key=null){
+    }
     /**
      * @param $result
      */
-    public function setResult($result){
-        // [min:false,regluar:false,callback:['fun1':fale,'fun2':true]]
-        if(is_array($result[1])){
-            $this->result[$result[0]][]=$result[1];
-        }else{
-            $this->result[$result[0]]=$result[1];
-        }
-
+    public function setLastResult($result){
+         $this->lastResult=$result;
     }
 
-    public  function  addResult($result,$key1,$key2,...){
-         // todo
-         $this->result[]=$result;
+    public function  getLastResult(){
+
+          return $this->lastResult;
     }
 
-    /*
-    public  function setFormResult($result){
 
-        if(count($result)>0){
-            $this->formResult[]=$result;
-        }
 
-    }*/
+
 }
