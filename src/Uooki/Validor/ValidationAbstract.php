@@ -22,5 +22,5 @@ abstract class ValidationAbstract
 
     abstract  protected function same($first,$second);
 
-    abstract  protected function unique($data,$connect,$table,$field);
+    abstract  protected function unique($data,$dbConfig);
 }

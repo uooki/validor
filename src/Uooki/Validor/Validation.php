@@ -115,22 +115,34 @@ class Validation extends ValidationAbstract implements ValidationInterface
 
     /**
      * @param $data
-     * @param $connect
-     * @param $table
-     * @param $field
-     * @return bool
+     * @param $config
+     * @return mixed
      */
-    protected function unique($data, $connect, $table, $field)
+    protected function unique($data, $config)
     {
-        $sql = "select * from " . $table . " where " . $field . "='" . $data . "' ";
+        $table=$config['table'];
+        $field=$config['field'];
+        $host=$config['host'];
+        $user=$config['username'];
+        $pwd=$config['pwd'];
+        $db=$config['db'];
+        $port=is_int($config['port'])?$config['port']:3306;
 
-        $flag = true;
+        $connect = new \mysqli($host,$user,$pwd,$db,$port);
+
+        /* check connection */
+        if ($connect->connect_errno) {
+            printf("Connect failed: %s\n", $connect->connect_error);
+            exit();
+        }
+        $sql = "select * from ".$table."  where  ".$field."='".$data."'";
+        $flag=null;
+        /* Select queries return a resultset */
         if ($result = $connect->query($sql)) {
-            if ($result->num_rows > 0) {
-                $flag = false;
-            }
+            $flag=($result->num_rows > 0)?false:true;
             $result->close();
         }
+        $connect->close();
         return $flag;
     }
 
