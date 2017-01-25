@@ -13,36 +13,40 @@
 namespace Uooki\Validor;
 
 
+/**
+ * Class Validation
+ * @package Uooki\Validor
+ */
 class Validation extends ValidationAbstract implements ValidationInterface
 {
 
+    /**
+     * @var
+     */
     protected $data;
+    /**
+     * @var
+     */
     protected $rule;
+    /**
+     * @var
+     */
     protected $result;
 
-    public function  __construct()
-    {
+    /**
+     *
+     */
+    public function  __construct(){}
+    /**
+     *
+     */
+    public function getData(){}
 
-    }
+    /**
+     *
+     */
+    public function getRule(){}
 
-    public function getData()
-    {
-
-
-    }
-
-    public function getRule(){
-
-
-    }
-    public function result()
-    {
-        return $this->getResult();
-    }
-    public function getResult()
-    {
-        return $this->result;
-    }
     /**
      * @param $data
      * @return bool
@@ -84,7 +88,6 @@ class Validation extends ValidationAbstract implements ValidationInterface
      */
     protected function regular($data, $regex)
     {
-        // 正则验证
         $valid = preg_match($regex, $data);
         return $valid ? true : false;
     }
@@ -144,13 +147,11 @@ class Validation extends ValidationAbstract implements ValidationInterface
      * @param $val
      * @param $rule
      * @return object
-     *
-     *
      */
-    public function valid($val, $rule)
+    protected function valid($val, $rule)
     {
         $data = $val;
-        $result = new ValidResult($data, $rule);
+        $result =['status'=>true];
         // 根据rule 调用不同的方法验证数据
         foreach ($rule as $v) {
             if (is_array($v)) {
@@ -160,57 +161,57 @@ class Validation extends ValidationAbstract implements ValidationInterface
                     foreach ($callbacks as $v1) {
                         $temp = $this->$v1($data);
                         if (!$temp) {
-                            $result->setStatus($temp);
+                            $result['status']=$temp;
                         }
-                        $result->setResult([ValidConst::VALID_RULE_CALLBACK, [$v1 => $temp]]);
+                        $result['data'][ValidConst::VALID_RULE_CALLBACK][]= [$v1 => $temp];
                     }
                 } else {
                     $temp = $this->$v[0]($data, $v[1]);
                     if (!$temp) {
-                        $result->setStatus($temp);
+                        $result['status']=$temp;
                     }
-                    $result->setResult([$v[0], $temp]);
+                    $result['data'][$v[0]]=$temp;
                 }
             } else {
                 $temp = $this->$v($data);
                 if (!$temp) {
-                    $result->setStatus($temp);
+                    $result['status']=$temp;
                 }
-                $result->setResult([$v, $temp]);
+                $result['data'][$v]=$temp;
             }
         }
-        $this->result = $result;
-        return $this;
+        return $result;
 
     }
 
-    protected  function setResult($value){
-         $this->result=$value;
+    /**
+     * @param $val
+     * @param $rule
+     * @return ValidResult
+     */
+    public function  validSingle($val, $rule){
+
+           $res[]=$this->valid($val,$rule);
+           $result = new ValidResult($res,$val,$rule);
+           return  $result;
     }
 
-    protected  function  addResult($data){
-         $this->result[]=$data;
-    }
-
-    protected  function conventToFormResult($k){
-
-        // 存储的单项结果转换为表单结果
-        $res=$this->getResult();
-
-        $this->setResult(null);
-        $this->addResult([$k=>$res]);
-    }
-
+    /**
+     * @param $rule
+     * @param $form
+     * @return ValidResult
+     */
     public function validForm($rule,$form){
 
         $data=empty($form)?$_POST:$form;
-
+        $res=[];
         foreach($data as $k=>$v){
              if(isset($rule[$k])){
-                  $this->valid($v,$rule[$k])->conventToFormResult($k);
+                 $res[$k] = $this->valid($v,$rule[$k]);
              }
         }
-        return $this;
+        $result = new ValidResult($res,$data,$rule);
+        return $result;
 
     }
 

@@ -16,43 +16,87 @@ namespace Uooki\Validor;
  * Class Validor
  * @package Uooki\Validor
  */
+/**
+ * Class Validor
+ * @package Uooki\Validor
+ */
 class Validor
 {
 
     use ValidationTrait;
 
+    /**
+     * @var
+     */
+    protected  $result;
+
+    /**
+     *
+     */
     public function __construct(){
         $this->_validation=new Validation();
     }
 
+    /**
+     * @return mixed
+     */
+    protected function getResult()
+    {
+        return $this->result;
+    }
 
+    /**
+     * @param $result
+     */
+    protected  function  setResult($result){
+
+        $this->result=$result;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function result()
+    {
+        return $this->getResult()->getResult();
+    }
+
+    /**
+     * @return mixed
+     */
+    public  function resultAll(){
+
+        return  $this->getResult();
+    }
     /**
      * 单项验证数据
      *
      * @param $data
      * @param $rule
+     * @return mixed
      */
     public  function  valid($data,$rule){
-
         $rule=$this->parseRule($rule);
-        return  $this->_validation->valid($data,$rule)->result();
+        $result=$this->_validation->validSingle($data,$rule);
+        $this->setResult($result);
+        return $this;
     }
 
     /**
      * 表单验证
      * @param $form
      * @param $rule
+     * @return mixed
      */
     public function  validForm($rule,$form=null){
-        // todo
-        // 根据form 字段名 匹配到rule ,若没有皮匹配到，则返回错误
+        //根据form 字段名 匹配到rule ,若没有皮匹配到，则返回错误
         foreach($rule as $k=>$v){
             $rule[$k]=$this->parseRule($v);
         }
-        return $this->_validation->validForm($rule,$form)->result();
-
+        $result = $this->_validation->validForm($rule,$form);
+        $this->setResult($result);
+        return $this;
     }
-
 
     /**
      * @param $rule

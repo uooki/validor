@@ -7,9 +7,19 @@
  */
 namespace Uooki\Validor;
 
+/**
+ * Interface ValidationInterface
+ * @package Uooki\Validor
+ */
 interface ValidationInterface
 {
+    /**
+     * @return mixed
+     */
     public function getData();
+
+    /**
+     * @return mixed
+     */
     public function getRule();
-    public function result();
 }
