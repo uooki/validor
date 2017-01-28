@@ -1,13 +1,6 @@
 <?php
 /*
-* 库功能实现代码
-* 我希望还能提供一组api ,用户使用这组api 来调用库，而不是直接调用库
-* 类似于laravel 为自己的核心组件提供的那组API
-*
-* 使用一个门面类到是可以做到隐藏库功能细节的目的，那就使用门面吧：
-*
-* validor， helper功能各使用一个门面类来给外界调用  
-*
+*  Here is validot library bussiess code .
 *
 */
 namespace Uooki\Validor;
@@ -53,9 +46,7 @@ class Validation extends ValidationAbstract implements ValidationInterface
      */
     protected function  required($data)
     {
-        $nd = strval($data);
-        $d = trim($nd);
-        return !empty($d);
+        return !empty($data);
     }
 
     /**
@@ -162,12 +153,12 @@ class Validation extends ValidationAbstract implements ValidationInterface
      */
     protected function valid($val, $rule)
     {
-        $data = $val;
+        $data = trim($val);
         $result =['status'=>true];
-        // 根据rule 调用不同的方法验证数据
+        // According to  the rules  to call different functions for valid corresponding data.
         foreach ($rule as $v) {
             if (is_array($v)) {
-                // 使用指定的函数做验证
+                // To use corresponding function
                 if (ValidConst::VALID_RULE_CALLBACK === $v[0]) {
                     $callbacks = explode("|", $v[1]);
                     foreach ($callbacks as $v1) {
