@@ -1,7 +1,7 @@
 <?php
 /**
- *
- * validor 功能的API , 为外部调用 validor 功能提供的接口
+ *  This is a set of API for validor , The user call validor by this API.
+ *  Just like laravel's API  or composer's API.
  *
  * Created by PhpStorm.
  * User: uoouki
@@ -16,10 +16,6 @@ namespace Uooki\Validor;
  * Class Validor
  * @package Uooki\Validor
  */
-/**
- * Class Validor
- * @package Uooki\Validor
- */
 class Validor
 {
 
@@ -29,6 +25,8 @@ class Validor
      * @var
      */
     protected  $result;
+
+    //static protected  $_validation;
 
     /**
      *
@@ -69,9 +67,9 @@ class Validor
         return  $this->getResult();
     }
     /**
-     * 单项验证数据
+     *  valid  single data
      *
-     * @param $data
+     * @param $data   ['field1'=>'val1','field2'=>'val2','field3'=>'val3']
      * @param $rule
      * @return mixed
      */
@@ -83,13 +81,16 @@ class Validor
     }
 
     /**
-     * 表单验证
+     *  valid form
+     *
      * @param $form
      * @param $rule
      * @return mixed
      */
     public function  validForm($rule,$form=null){
-        //根据form 字段名 匹配到rule ,若没有皮匹配到，则返回错误
+
+        // According to the form's field name to look up "rule".
+        // If no match is found in the "rule"  , will return an error.
         foreach($rule as $k=>$v){
             $rule[$k]=$this->parseRule($v);
         }
@@ -99,9 +100,9 @@ class Validor
     }
 
     /**
-     * @param $rule
+     * @param $rule  ['require','regex:xxx','unique','same','min:xxx','functions:xxx1|xxx2|xxx3|...']
      * @return mixed
-     *  ['require','regex:xxx','unique','same','min:xxx','functions:xxx|xxx|']
+     *
      */
     protected  function  parseRule($rule){
         //
